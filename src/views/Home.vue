@@ -69,8 +69,6 @@ export default {
   methods : {
     add(){
       var date = new Date(this.task.date);
-      console.log(date);
-      console.log(date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getYear());
       this.$http.post('http://localhost:8000/tasks/', {
         name: this.task.name,
         content: this.task.content,
