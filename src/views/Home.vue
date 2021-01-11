@@ -17,7 +17,7 @@
           <v-list-item-subtitle v-text="task.content"></v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
-          <v-btn icon>
+          <v-btn icon v-on:click="deleteTask(task.id)">
             <v-icon color="red lighten-1">mdi-delete</v-icon>
           </v-btn>
         </v-list-item-action>
@@ -68,13 +68,23 @@ export default {
   },
   methods : {
     add(){
+      var date = new Date(this.task.date);
+      console.log(date);
+      console.log(date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getYear());
       this.$http.post('http://localhost:8000/tasks/', {
-        title: this.task.title,
+        name: this.task.name,
         content: this.task.content,
-        date: new Date(this.task.date),
+        createdAt: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(),
       }).then(function(data) {
         console.log(data);
+        alert("Task Created");
       });
+    },
+    deleteTask(id){
+    this.$http.delete('http://localhost:8000/tasks/' + id + '/').then(function(data){
+      console.log(data);
+      alert("Task Deleted Refresh Page.");
+    });
     }
   },
   created(){
